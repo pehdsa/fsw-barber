@@ -1,17 +1,21 @@
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SearchIcon } from "lucide-react"
+import Image from "next/image"
 import Header from "@/components/header"
 import BarberShopItem from "@/components/barbershop-item"
-import Image from "next/image"
+import BookingItem from "@/components/booking-item"
+import { quickSearchOptions } from "@/constants/search"
 import { db } from "@/lib/prisma"
 
 const Home = async () => {
     const barbershops = await db.barbershop.findMany({})
-    console.log(barbershops)
+    const popularBarberShop = await db.barbershop.findMany({
+        orderBy: {
+            name: "desc",
+        },
+    })
 
     return (
         <div>
@@ -22,51 +26,54 @@ const Home = async () => {
                     <p>Sexta, 2 de agosto</p>
                 </section>
 
-                <div className="flex items-center gap-2 px-5 pb-6">
+                <section className="flex items-center gap-2 px-5 pb-6">
                     <Input placeholder="Faça sua busca..." />
                     <Button size="icon">
                         <SearchIcon />
                     </Button>
-                </div>
+                </section>
 
-                <section className="relative mb-6 h-[150px] w-full px-5">
-                    <Image
-                        alt="Banner"
-                        src="/banner_1.svg"
-                        fill
-                        className="rounded-xl object-contain"
-                    />
+                <section className="pb-6">
+                    <div className="flex gap-2 overflow-auto px-5 [&::-webkit-scrollbar]:hidden">
+                        {quickSearchOptions.map((option) => (
+                            <Button
+                                className="gap-2"
+                                key={option.title}
+                                variant="secondary"
+                            >
+                                <Image
+                                    src={option.imageUrl}
+                                    alt={option.title}
+                                    width={16}
+                                    height={16}
+                                />
+                                <p className="text-sm font-bold text-white">
+                                    {option.title}
+                                </p>
+                            </Button>
+                        ))}
+                    </div>
+                </section>
+
+                <section className="relative mb-6 w-full px-5">
+                    <div className="relative h-[150px] w-full">
+                        <Image
+                            alt="Banner"
+                            src="/banner_1.svg"
+                            fill
+                            className="rounded-xl object-contain"
+                        />
+                    </div>
                 </section>
 
                 <section className="px-5 pb-6">
                     <h3 className="pb-3 text-xs font-bold uppercase text-gray-400">
                         Agendamento
                     </h3>
-                    <Card>
-                        <CardContent className="flex justify-between p-0">
-                            <div className="flex flex-col gap-2.5 p-5">
-                                <Badge className="w-fit">Confirmado</Badge>
-                                <h4 className="font-semibold">
-                                    Corte de Cabelo
-                                </h4>
-                                <div className="flex items-center gap-2">
-                                    <Avatar className="h-6 w-6">
-                                        <AvatarImage src="https://github.com/shadcn.png" />
-                                        <AvatarFallback>CN</AvatarFallback>
-                                    </Avatar>
-                                    <p className="text-sm">Vintage Barber</p>
-                                </div>
-                            </div>
-                            <div className="flex flex-col items-center justify-center border-l px-5">
-                                <p className="text-sm">Fevereiro</p>
-                                <p className="text-2xl">06</p>
-                                <p className="text-sm">09:45</p>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <BookingItem />
                 </section>
 
-                <section>
+                <section className="pb-6">
                     <h3 className="px-5 pb-3 text-xs font-bold uppercase text-gray-400">
                         Recomendados
                     </h3>
@@ -76,7 +83,28 @@ const Home = async () => {
                         ))}
                     </div>
                 </section>
+
+                <section className="pb-6">
+                    <h3 className="px-5 pb-3 text-xs font-bold uppercase text-gray-400">
+                        Populares
+                    </h3>
+                    <div className="flex gap-3 overflow-auto px-5 [&::-webkit-scrollbar]:hidden">
+                        {popularBarberShop.map((item) => (
+                            <BarberShopItem barbershop={item} key={item.id} />
+                        ))}
+                    </div>
+                </section>
             </div>
+
+            <footer>
+                <Card className="rounded-none">
+                    <CardContent className="px-5 py-6">
+                        <p className="text-sm font-semibold text-gray-400">
+                            © 2024 Copyright FSW Barber
+                        </p>
+                    </CardContent>
+                </Card>
+            </footer>
         </div>
     )
 }
