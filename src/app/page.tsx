@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SearchIcon } from "lucide-react"
@@ -95,16 +94,6 @@ const Home = async () => {
                     </div>
                 </section>
             </div>
-
-            <footer>
-                <Card className="rounded-none">
-                    <CardContent className="px-5 py-6">
-                        <p className="text-sm font-semibold text-gray-400">
-                            © 2024 Copyright FSW Barber
-                        </p>
-                    </CardContent>
-                </Card>
-            </footer>
         </div>
     )
 }
