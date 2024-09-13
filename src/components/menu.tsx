@@ -135,7 +135,9 @@ const Menu = ({ trigger }: MenuProps) => {
                                         className="justify-start gap-2"
                                         asChild
                                     >
-                                        <Link href="/">
+                                        <Link
+                                            href={`/barbershops?service=${option.title}`}
+                                        >
                                             <Image
                                                 src={option.imageUrl}
                                                 alt={option.title}

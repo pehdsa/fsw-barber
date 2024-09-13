@@ -6,6 +6,7 @@ import BookingItem from "@/components/booking-item"
 import { quickSearchOptions } from "@/constants/search"
 import { db } from "@/lib/prisma"
 import Search from "@/components/search"
+import Link from "next/link"
 
 const Home = async () => {
     const barbershops = await db.barbershop.findMany({})
@@ -35,16 +36,21 @@ const Home = async () => {
                                 className="gap-2"
                                 key={option.title}
                                 variant="secondary"
+                                asChild
                             >
-                                <Image
-                                    src={option.imageUrl}
-                                    alt={option.title}
-                                    width={16}
-                                    height={16}
-                                />
-                                <p className="text-sm font-bold text-white">
-                                    {option.title}
-                                </p>
+                                <Link
+                                    href={`/barbershops?service=${option.title}`}
+                                >
+                                    <Image
+                                        src={option.imageUrl}
+                                        alt={option.title}
+                                        width={16}
+                                        height={16}
+                                    />
+                                    <p className="text-sm font-bold text-white">
+                                        {option.title}
+                                    </p>
+                                </Link>
                             </Button>
                         ))}
                     </div>
