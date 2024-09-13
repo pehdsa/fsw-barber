@@ -2,6 +2,7 @@ import Image from "next/image"
 import { Card, CardContent } from "./ui/card"
 import { Button } from "./ui/button"
 import { MenuIcon } from "lucide-react"
+import Menu from "./menu"
 
 const Header = () => {
     return (
@@ -14,9 +15,14 @@ const Header = () => {
                         width={120}
                         height={18}
                     />
-                    <Button variant="outline" size="icon">
-                        <MenuIcon />
-                    </Button>
+
+                    <Menu
+                        trigger={
+                            <Button variant="outline" size="icon">
+                                <MenuIcon />
+                            </Button>
+                        }
+                    />
                 </CardContent>
             </Card>
         </header>

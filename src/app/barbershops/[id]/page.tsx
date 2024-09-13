@@ -1,3 +1,4 @@
+import Menu from "@/components/menu"
 import PhoneItem from "@/components/phone-item"
 import ServiceItem from "@/components/service-item"
 import { Button } from "@/components/ui/button"
@@ -35,9 +36,13 @@ const BarberShopPage = async ({ params }: BarberShopsType) => {
                         <ChevronLeftIcon />
                     </Link>
                 </Button>
-                <Button variant="secondary" size="icon">
-                    <MenuIcon />
-                </Button>
+                <Menu
+                    trigger={
+                        <Button variant="secondary" size="icon">
+                            <MenuIcon />
+                        </Button>
+                    }
+                />
             </div>
 
             <div className="relative h-[250px] w-full">
